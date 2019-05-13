@@ -9,7 +9,7 @@ namespace sdv_helper.Detectors
 {
     interface IDetector
     {
-        IDetector setLocation(GameLocation loc);
-        EntityList detect();
+        IDetector SetLocation(GameLocation loc);
+        EntityList Detect();
     }
 }

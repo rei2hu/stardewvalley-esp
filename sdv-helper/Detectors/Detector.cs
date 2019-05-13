@@ -9,10 +9,10 @@ namespace sdv_helper.Detectors
 {
     class Detector : IDetector
     {
-        private Dictionary<string, IDetector> detectors = new Dictionary<string, IDetector>();
+        private readonly Dictionary<string, IDetector> detectors = new Dictionary<string, IDetector>();
         public EntityList Entities { get; set; } = new EntityList();
         public GameLocation Location { get; set; }
-        public Detector addDetector(string type)
+        public Detector AddDetector(string type)
         {
             IDetector d = null;
             switch (type)
@@ -23,6 +23,9 @@ namespace sdv_helper.Detectors
                 case "Object":
                     d = new ObjectDetector();
                     break;
+                case "FarmAnimal":
+                    d = new FarmAnimalDetector();
+                    break;
                 case null:
                     return this;
             }
@@ -30,22 +33,22 @@ namespace sdv_helper.Detectors
             return this;
         }
 
-        public EntityList detect()
+        public EntityList Detect()
         {
             Entities.Clear();
             foreach (var kvp in detectors)
             {
 
-                Entities.AddRange(kvp.Value.detect());
+                Entities.AddRange(kvp.Value.Detect());
             }
             return Entities;
         }
 
-        public IDetector setLocation(GameLocation loc)
+        public IDetector SetLocation(GameLocation loc)
         {
             foreach (var kvp in detectors)
             {
-                kvp.Value.setLocation(loc);
+                kvp.Value.SetLocation(loc);
             }
             Location = loc;
             return this;
