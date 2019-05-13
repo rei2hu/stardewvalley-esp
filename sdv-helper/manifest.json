@@ -1,0 +1,10 @@
+{
+  "Name": "sdv-helper",
+  "Author": "reimu",
+  "Version": "1.0.0",
+  "Description": "Stardew Valley helper",
+  "UniqueID": "reimu.sdv-helper",
+  "EntryDll": "sdv-helper.dll",
+  "MinimumApiVersion": "2.10.0",
+  "UpdateKeys": []
+}
