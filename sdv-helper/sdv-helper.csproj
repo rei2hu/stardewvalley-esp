@@ -44,6 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Detectors\Detector.cs" />
+    <Compile Include="Detectors\EntityList.cs" />
+    <Compile Include="Detectors\NPCDetector.cs" />
+    <Compile Include="Detectors\IDetector.cs" />
+    <Compile Include="Detectors\ObjectDetector.cs" />
+    <Compile Include="Drawing\ColorManager.cs" />
+    <Compile Include="Drawing\DrawingUtil.cs" />
+    <Compile Include="ModConfig.cs" />
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
