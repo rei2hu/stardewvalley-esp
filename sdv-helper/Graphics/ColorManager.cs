@@ -9,17 +9,20 @@ namespace sdv_helper.Graphics
     class ColorManager
     {
         private static readonly Dictionary<Color, Texture2D> textures = new Dictionary<Color, Texture2D>();
-        public ColorManager(GraphicsDevice d)
+        public ColorManager()
         {
             foreach (Color c in new Color[] { Color.White, Color.LightGreen, Color.Red, Color.DarkGray, Color.LightGray })
             {
-                textures.Add(c, new Texture2D(d, 1, 1));
+                textures.Add(c, new Texture2D(Game1.graphics.GraphicsDevice, 1, 1));
                 textures[c].SetData(new Color[] { c });
             }
         }
 
         public Texture2D GetTextureWithColor(Color c)
         {
+            if (!textures.ContainsKey(c))
+                textures.Add(c, new Texture2D(Game1.graphics.GraphicsDevice, 1, 1));
+            textures[c].SetData(new Color[] { c });
             return textures[c];
         }
 

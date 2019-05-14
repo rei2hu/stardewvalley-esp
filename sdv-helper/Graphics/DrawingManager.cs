@@ -13,7 +13,7 @@ namespace sdv_helper.Graphics
 
         public DrawingManager(Settings.Settings settings)
         {
-            colorManager = new ColorManager(Game1.graphics.GraphicsDevice);
+            colorManager = new ColorManager();
             this.settings = settings;
         }
 
