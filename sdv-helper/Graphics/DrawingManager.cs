@@ -24,19 +24,18 @@ namespace sdv_helper.Graphics
 
         public void LabelEntities(Detector detector)
         {
-            Vector2 playerPosition = new Vector2(Game1.player.getTileX(), Game1.player.getTileY());
+            Vector2 playerPosition = Game1.player.Position;
 
-            // viewport height/width
-            float vw = Game1.viewport.Width / Game1.tileSize;
-            float vh = Game1.viewport.Height / Game1.tileSize;
-            float vx = Game1.viewport.X / Game1.tileSize;
-            float vy = Game1.viewport.Y / Game1.tileSize;
-            float centerX = vx + vw / 2;
-            float centerY = vy + vh / 2;
+            float sceenWidth = Game1.viewport.Width;
+            float screenHeight = Game1.viewport.Height;
+            float screenLeft = Game1.viewport.X;
+            float screenTop = Game1.viewport.Y;
+            float centerX = screenLeft + sceenWidth / 2;
+            float centerY = screenTop + screenHeight / 2;
 
             foreach (var entry in detector.Entities)
             {
-                Vector2 targetPos = entry.Key;
+                Vector2 targetPos = entry.Key * Game1.tileSize;
                 object target = entry.Value;
                 int distance = (int)Vector2.Distance(playerPosition, targetPos);
 
@@ -49,35 +48,31 @@ namespace sdv_helper.Graphics
                 c = settings.GetColorFor(name, c);
                 Texture2D texture = colorManager.GetTextureWithColor(c);
 
-                string text = $"{name}: {distance.ToString("D2")}";
-                Vector2 textSize = Game1.smallFont.MeasureString(text) / Game1.tileSize;
+                string text = $"{name}: {(distance / Game1.tileSize).ToString("D2")}";
+                Vector2 textSize = Game1.smallFont.MeasureString(text);
                 float slope = (targetPos.Y - centerY) / (targetPos.X - centerX);
 
                 // where it should be drawn
-                Vector2 currentDrawPos = new Vector2(entry.Key.X - vx - textSize.X / 2, entry.Key.Y - vy - textSize.Y / 2);
+                Vector2 currentDrawPos = new Vector2(targetPos.X - screenLeft - textSize.X / 2, targetPos.Y - screenTop - textSize.Y / 2);
 
                 // if it's offscreen to the left or right
-                if (entry.Key.X < vx)
+                if (targetPos.X < screenLeft)
                 {
                     currentDrawPos.X = 0;
-                    currentDrawPos.Y = entry.Key.Y + (vx - entry.Key.X) * slope - vy;
+                    currentDrawPos.Y = targetPos.Y + (screenLeft - targetPos.X) * slope - screenTop;
                 }
-                else if (entry.Key.X > vx + vw)
+                else if (targetPos.X > screenLeft + sceenWidth)
                 {
-                    currentDrawPos.X = vw - textSize.X;
-                    currentDrawPos.Y = entry.Key.Y + (entry.Key.X - vx - vw) * slope - vy;
+                    currentDrawPos.X = sceenWidth - textSize.X;
+                    currentDrawPos.Y = targetPos.Y + (targetPos.X - screenLeft - sceenWidth) * slope - screenTop;
                 }
-                currentDrawPos.Y = Math.Max(0, Math.Min(currentDrawPos.Y, vh - textSize.Y));
-
-                // scale to screen
-                currentDrawPos *= Game1.tileSize;
-                textSize *= Game1.tileSize;
+                currentDrawPos.Y = Math.Max(0, Math.Min(currentDrawPos.Y, screenHeight - textSize.Y));
 
                 // draw rectangle around text
                 Game1.spriteBatch.Draw(
                     texture,
                     new Rectangle((int)currentDrawPos.X, (int)currentDrawPos.Y, (int)textSize.X, (int)textSize.Y),
-                    c * 0.5f);
+                    c * 0.75f);
 
                 // draw text
                 Game1.spriteBatch.DrawString(
