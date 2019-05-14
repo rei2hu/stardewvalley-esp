@@ -6,5 +6,8 @@
   "UniqueID": "reimu.sdv-helper",
   "EntryDll": "sdv-helper.dll",
   "MinimumApiVersion": "2.10.0",
-  "UpdateKeys": []
+  "UpdateKeys": [
+    "GitHub:rei2hu/stardewvalley-esp",
+    "Nexus:3917"
+  ]
 }
