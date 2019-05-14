@@ -25,7 +25,7 @@ When you first start the mod, a file called `settings.json` will be placed in th
 if you want. Each entry is formatted like so:
 ```json
 {
-  "Name", [enabled, r, g, b, a],
+  "Name": [enabled, r, g, b, a],
   ...
 }
 ```
