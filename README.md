@@ -23,10 +23,10 @@ foragables | npcs
 ### Settings
 When you first start the mod, a file called `settings.json` will be placed in the same folder as the mod location e.g. "Stardew Valley/Mods/sdv-helper". As entities are encountered in the game, the file will be populated, however you can populate it manually
 if you want. Each entry is formatted like so:
-```json
+```js
 {
   "Name": [enabled, r, g, b, a],
-  ...
+  // ...
 }
 ```
 - Name is the name of the object e.g. Weeds, Stone, and for NPCs and animals, their actual name.
