@@ -18,7 +18,7 @@ foragables | npcs
   - [ ] Dropped stuff
   - [ ] Fishing hotspots
 - [ ] General QOL
-  - [ ] Ingame menu to change settings
+  - [x] Ingame menu to change settings
 
 ### Settings
 When you first start the mod, a file called `settings.json` will be placed in the same folder as the mod location e.g. "Stardew Valley/Mods/sdv-helper". As entities are encountered in the game, the file will be populated, however you can populate it manually
