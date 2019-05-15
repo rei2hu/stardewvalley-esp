@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using sdv_helper.Config;
 using StardewValley;
 
 namespace sdv_helper.Detectors
@@ -12,19 +9,27 @@ namespace sdv_helper.Detectors
         private readonly Dictionary<string, IDetector> detectors = new Dictionary<string, IDetector>();
         public EntityList Entities { get; set; } = new EntityList();
         public GameLocation Location { get; set; }
+
+        private readonly Settings settings;
+
+        public Detector(Settings settings)
+        {
+            this.settings = settings;
+        }
+
         public Detector AddDetector(string type)
         {
             IDetector d = null;
             switch (type)
             {
                 case "NPC":
-                    d = new NPCDetector();
+                    d = new NPCDetector(settings);
                     break;
                 case "Object":
-                    d = new ObjectDetector();
+                    d = new ObjectDetector(settings);
                     break;
                 case "FarmAnimal":
-                    d = new FarmAnimalDetector();
+                    d = new FarmAnimalDetector(settings);
                     break;
                 case null:
                     return this;

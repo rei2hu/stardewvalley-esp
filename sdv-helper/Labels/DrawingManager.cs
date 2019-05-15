@@ -4,14 +4,14 @@ using sdv_helper.Detectors;
 using StardewValley;
 using System;
 
-namespace sdv_helper.Graphics
+namespace sdv_helper.Labels
 {
     class DrawingManager
     {
         private readonly ColorManager colorManager;
-        private readonly Settings.Settings settings;
+        private readonly Config.Settings settings;
 
-        public DrawingManager(Settings.Settings settings)
+        public DrawingManager(Config.Settings settings)
         {
             colorManager = new ColorManager();
             this.settings = settings;
@@ -41,12 +41,11 @@ namespace sdv_helper.Graphics
 
                 // not safe but should be guaranteed as every object should have a Name property
                 string name = (string)target.GetType().GetProperty("Name").GetValue(target);
-                Color c = colorManager.GetDefaultColorFor(target, detector);
+                int iColor = settings.GetColorFor(name);
 
-                // kind of weird you have to get the color before checking if it's enabled
-                if (!settings.IsEnabled(name, c)) continue;
-                c = settings.GetColorFor(name, c);
-                Texture2D texture = colorManager.GetTextureWithColor(c);
+                if (iColor == 0) continue;
+
+                Color c = colorManager.colorFromInt(iColor);
 
                 string text = $"{name}: {(distance / Game1.tileSize).ToString("D2")}";
                 Vector2 textSize = Game1.smallFont.MeasureString(text);
@@ -70,7 +69,7 @@ namespace sdv_helper.Graphics
 
                 // draw rectangle around text
                 Game1.spriteBatch.Draw(
-                    texture,
+                    Game1.staminaRect,
                     new Rectangle((int)currentDrawPos.X, (int)currentDrawPos.Y, (int)textSize.X, (int)textSize.Y),
                     c * 0.75f);
 

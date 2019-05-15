@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using sdv_helper.Config;
 using StardewValley;
 
 namespace sdv_helper.Detectors
@@ -7,6 +8,12 @@ namespace sdv_helper.Detectors
     class FarmAnimalDetector : IDetector
     {
         private GameLocation location;
+        private Settings settings;
+        public FarmAnimalDetector(Settings settings)
+        {
+            this.settings = settings;
+        }
+
         public EntityList Detect()
         {
             EntityList e = new EntityList();

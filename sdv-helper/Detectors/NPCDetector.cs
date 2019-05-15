@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using sdv_helper.Config;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,12 @@ namespace sdv_helper.Detectors
     class NPCDetector : IDetector
     {
         private GameLocation location;
+        private Settings settings;
+        public NPCDetector(Settings settings)
+        {
+            this.settings = settings;
+        }
+
         public EntityList Detect()
         {
             EntityList e = new EntityList();
