@@ -9,16 +9,17 @@ foragables | npcs | a lot of things | menu
 ### Planned features
 - [x] Filter objects
 - [x] Pick your own colors
-- [ ] Entity checklist
+- [x] Entity checklist
   - [x] NPCs
   - [x] Other players (untested, should work with NPCs)
   - [x] Farm Animals
   - [x] Foragables
   - [x] Stone, twigs, weed
-  - [ ] Dropped stuff
-  - [ ] Fishing hotspots
+  - [x] Ore panning spots
+  - [x] Fishing hotspots
 - [x] General QOL
   - [x] Ingame menu to change settings
+- [ ] Cleanup
 
 ### Settings
 When you first start the mod, a file called `settings.json` will be placed in the same folder as the mod location e.g. "Stardew Valley/Mods/sdv-helper". As entities are encountered in the game, the file will be populated, however you can populate it manually if you want. Each entry is formatted like so:
