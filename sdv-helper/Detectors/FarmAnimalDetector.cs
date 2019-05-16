@@ -22,7 +22,8 @@ namespace sdv_helper.Detectors
                 {
                     // bug: if an animal is located in a building, the position is
                     // incorrect
-                    e.Add(new KeyValuePair<Vector2, object>(c.getTileLocation(), c));
+                    if (location.isTileOnMap(c.getTileLocation()))
+                        e.Add(new KeyValuePair<Vector2, object>(c.getTileLocation(), c));
                 }
             return e;
         }

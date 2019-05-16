@@ -53,6 +53,7 @@
     <Compile Include="Detectors\NPCDetector.cs" />
     <Compile Include="Detectors\IDetector.cs" />
     <Compile Include="Detectors\ObjectDetector.cs" />
+    <Compile Include="Detectors\WaterEntityDetector.cs" />
     <Compile Include="Labels\ColorManager.cs" />
     <Compile Include="Labels\DrawingManager.cs" />
     <Compile Include="Menu\ColorComponent.cs" />

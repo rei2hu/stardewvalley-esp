@@ -20,7 +20,8 @@ namespace sdv_helper
             detector = new Detector(settings);
             detector.AddDetector("NPC")
                 .AddDetector("Object")
-                .AddDetector("FarmAnimal");
+                .AddDetector("FarmAnimal")
+                .AddDetector("WaterEntity");
             drawingManager = new DrawingManager(settings);
 
             Helper.Events.Display.RenderingHud += Display_RenderingHud;

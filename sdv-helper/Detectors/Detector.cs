@@ -31,6 +31,9 @@ namespace sdv_helper.Detectors
                 case "FarmAnimal":
                     d = new FarmAnimalDetector(settings);
                     break;
+                case "WaterEntity":
+                    d = new WaterEntityDetector(settings);
+                    break;
                 case null:
                     return this;
             }
