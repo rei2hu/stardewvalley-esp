@@ -45,7 +45,7 @@ namespace sdv_helper
             }
             else if (e.Button == SButton.K)
             {
-                Game1.activeClickableMenu = configMenu;
+                Game1.activeClickableMenu = new ConfigMenu(settings); // configMenu;
             }
         }
 

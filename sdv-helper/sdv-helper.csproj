@@ -57,6 +57,7 @@
     <Compile Include="Labels\DrawingManager.cs" />
     <Compile Include="Menu\ColorComponent.cs" />
     <Compile Include="Menu\ConfigMenu.cs" />
+    <Compile Include="Menu\Scrollbar.cs" />
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Config\Settings.cs" />
