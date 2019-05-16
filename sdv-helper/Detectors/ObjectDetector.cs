@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using sdv_helper.Config;
 using StardewValley;
@@ -10,7 +9,7 @@ namespace sdv_helper.Detectors
     class ObjectDetector : IDetector
     {
         public GameLocation location;
-        private Settings settings;
+        private readonly Settings settings;
         public ObjectDetector(Settings settings)
         {
             this.settings = settings;

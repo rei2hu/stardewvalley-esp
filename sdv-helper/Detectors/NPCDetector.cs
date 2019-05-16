@@ -10,7 +10,7 @@ namespace sdv_helper.Detectors
     class NPCDetector : IDetector
     {
         private GameLocation location;
-        private Settings settings;
+        private readonly Settings settings;
         public NPCDetector(Settings settings)
         {
             this.settings = settings;

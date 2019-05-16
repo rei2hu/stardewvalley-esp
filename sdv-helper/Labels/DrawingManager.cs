@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using sdv_helper.Detectors;
 using StardewValley;
 using System;
@@ -52,7 +51,7 @@ namespace sdv_helper.Labels
                 float slope = (targetPos.Y - centerY) / (targetPos.X - centerX);
 
                 // where it should be drawn
-                Vector2 currentDrawPos = new Vector2(targetPos.X - screenLeft - textSize.X / 2, targetPos.Y - screenTop - textSize.Y / 2);
+                Vector2 currentDrawPos = new Vector2(targetPos.X - screenLeft - (textSize.X - Game1.tileSize) / 2, targetPos.Y - screenTop - textSize.Y / 2);
 
                 // if it's offscreen to the left or right
                 if (targetPos.X < screenLeft)

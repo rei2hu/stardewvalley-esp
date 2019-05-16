@@ -3,11 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using sdv_helper.Config;
 using StardewValley;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sdv_helper.Menu
 {

@@ -8,7 +8,7 @@ namespace sdv_helper.Detectors
     class FarmAnimalDetector : IDetector
     {
         private GameLocation location;
-        private Settings settings;
+        private readonly Settings settings;
         public FarmAnimalDetector(Settings settings)
         {
             this.settings = settings;

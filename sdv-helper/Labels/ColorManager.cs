@@ -1,8 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using sdv_helper.Detectors;
-using StardewValley;
-using System.Collections.Generic;
 
 namespace sdv_helper.Labels
 {
