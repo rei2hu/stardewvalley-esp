@@ -8,7 +8,6 @@ namespace sdv_helper.Labels
 {
     class ColorManager
     {
-        private static readonly Dictionary<int, Texture2D> textures = new Dictionary<int, Texture2D>();
         private static readonly Color[] colors;
 
         static ColorManager()
@@ -42,7 +41,7 @@ namespace sdv_helper.Labels
         {
         }
 
-        public Color colorFromInt(int i)
+        public Color ColorFromInt(int i)
         {
             if (i < 0 || i > colors.Length - 1) return Color.Black;
             return colors[i];

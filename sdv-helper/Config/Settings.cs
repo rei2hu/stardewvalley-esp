@@ -13,7 +13,7 @@ namespace sdv_helper.Config
     class Settings
     {
         private static readonly string defaultContent = "{}";
-        public Dictionary<string, int> dSettings { get; } = new Dictionary<string, int>();
+        public Dictionary<string, int> DSettings { get; } = new Dictionary<string, int>();
         private readonly IModHelper helper;
         private string path;
         public Settings(IModHelper helper)
@@ -31,35 +31,35 @@ namespace sdv_helper.Config
             }
             string text = File.ReadAllText(path);
             dynamic json = JsonConvert.DeserializeObject(text);
-            dSettings.Clear();
+            DSettings.Clear();
             foreach (var entry in json)
             {
-                dSettings.Add(entry.Name, entry.Value.ToObject<int>());
+                DSettings.Add(entry.Name, entry.Value.ToObject<int>());
             }
         }
 
         public void SaveSettings()
         {
-            string text = JsonConvert.SerializeObject(dSettings);
+            string text = JsonConvert.SerializeObject(DSettings);
             File.WriteAllText(path, text);
         }
 
         public void SetDefaultsFor(string name)
         {
-            dSettings.Add(name, 19);
+            DSettings.Add(name, 19);
             SaveSettings();
         }
 
         public void SetColorFor(string name, int color)
         {
-            dSettings[name] = color;
+            DSettings[name] = color;
             SaveSettings();
         }
 
         public int GetColorFor(string name)
         {
-            if (!dSettings.ContainsKey(name)) SetDefaultsFor(name);
-            return dSettings[name];
+            if (!DSettings.ContainsKey(name)) SetDefaultsFor(name);
+            return DSettings[name];
         }
     }
 }

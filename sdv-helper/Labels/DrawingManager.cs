@@ -45,7 +45,7 @@ namespace sdv_helper.Labels
 
                 if (iColor == 0) continue;
 
-                Color c = colorManager.colorFromInt(iColor);
+                Color c = colorManager.ColorFromInt(iColor);
 
                 string text = $"{name}: {(distance / Game1.tileSize).ToString("D2")}";
                 Vector2 textSize = Game1.smallFont.MeasureString(text);

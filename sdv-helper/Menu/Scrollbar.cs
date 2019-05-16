@@ -12,9 +12,9 @@ namespace sdv_helper.Menu
 {
     class Scrollbar : IClickableMenu
     {
-        private ClickableTextureComponent bar;
-        private ClickableTextureComponent upArrow;
-        private ClickableTextureComponent downArrow;
+        private readonly ClickableTextureComponent bar;
+        private readonly ClickableTextureComponent upArrow;
+        private readonly ClickableTextureComponent downArrow;
         private Rectangle runner;
         public int Pages { get; set; }
         public int Position { get; set; } = 0;
@@ -26,7 +26,7 @@ namespace sdv_helper.Menu
         {
             upArrow = new ClickableTextureComponent(new Rectangle(x + 16, y, 44, 48), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), 4f, false);
             downArrow = new ClickableTextureComponent(new Rectangle(x + 16, y + h, 44, 48), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), 4f, false);
-            bar = new ClickableTextureComponent(new Rectangle(upArrow.bounds.X + 12, upArrow.bounds.Y + upArrow.bounds.Height + 4, 24, 40), 
+            bar = new ClickableTextureComponent(new Rectangle(upArrow.bounds.X + 12, upArrow.bounds.Y + upArrow.bounds.Height + 4, 24, 40),
                 Game1.mouseCursors, new Rectangle(435, 463, 6, 10), 4f, false);
             Top = upArrow.bounds.Y + upArrow.bounds.Height + 4;
             Bottom = h - Top + 8;
@@ -36,7 +36,7 @@ namespace sdv_helper.Menu
             this.Pages = pages;
         }
 
-        public void setBarAt(int i)
+        public void SetBarAt(int i)
         {
             if (i >= Pages)
             {
@@ -48,7 +48,7 @@ namespace sdv_helper.Menu
             }
             else
             {
-                bar.bounds.Y = (int) (runner.Top + (1f * i / Pages) * (runner.Height - bar.bounds.Height));
+                bar.bounds.Y = (int)(runner.Top + (1f * i / Pages) * (runner.Height - bar.bounds.Height));
             }
         }
 

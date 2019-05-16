@@ -19,28 +19,29 @@ namespace sdv_helper.Menu
         private static readonly Rectangle titleRect = new Rectangle(0, 256, 60, 60);
         private static readonly int textLength = 300;
 
-        private  Dictionary<string, ColorComponent> colorPickers = new Dictionary<string, ColorComponent>();
-        private Scrollbar scrollbar;
-        private Settings settings;
+        private readonly Dictionary<string, ColorComponent> colorPickers = new Dictionary<string, ColorComponent>();
+        private readonly Scrollbar scrollbar;
+        private readonly Settings settings;
 
         private readonly int bWidth = 1200;
-        private int bHeight;
-        private int bStartX = paddingX * 2;
-        private int bStartY = paddingY;
-        private int pages;
-        private int entriesPerPage = 7; // (int)Math.Floor(bHeight / Game1.dialogueFont.MeasureString("A").Y);
+        private readonly int bStartX = paddingX * 2;
+        private readonly int bStartY = paddingY;
         private int currentEntry = 0;
         private bool scrolling = false;
+
+        private readonly int bHeight;
+        private int pages;
+        private readonly int entriesPerPage;
 
         public ConfigMenu(Settings settings)
         {
             bHeight = Game1.viewport.Height - paddingY * 2;
-            entriesPerPage = (int) Math.Floor(bHeight / (Game1.dialogueFont.MeasureString("A").Y + 20));
+            entriesPerPage = (int)Math.Floor(bHeight / (Game1.dialogueFont.MeasureString("A").Y + 20));
 
             this.settings = settings;
-            pages = settings.dSettings.Count - entriesPerPage;
+            pages = settings.DSettings.Count - entriesPerPage;
             scrollbar = new Scrollbar(bStartX + bWidth, bStartY, bHeight - borderWidth, pages);
-            resetColorPickers();
+            ResetColorPickers();
         }
 
         public override void receiveLeftClick(int x, int y, bool playSound = true)
@@ -65,25 +66,25 @@ namespace sdv_helper.Menu
             if (!scrolling) return;
 
             int sbHeight = scrollbar.Bottom - scrollbar.Top;
-            int position = (int) (1f * (Game1.getMouseY() - scrollbar.Top) / sbHeight * pages);
-            scrollTo(position);
+            int position = (int)(1f * (Game1.getMouseY() - scrollbar.Top) / sbHeight * pages);
+            ScrollTo(position);
         }
 
         public override void receiveScrollWheelAction(int direction)
         {
             if (direction < 0)
-                scrollDown();
+                ScrollDown();
             else
-                scrollUp();
+                ScrollUp();
         }
 
         public override void draw(SpriteBatch b)
         {
             // if there are new entries, reset the stuff
-            if (settings.dSettings.Count != colorPickers.Count)
+            if (settings.DSettings.Count != colorPickers.Count)
             {
-                resetColorPickers();
-                pages = settings.dSettings.Count - entriesPerPage;
+                ResetColorPickers();
+                pages = settings.DSettings.Count - entriesPerPage;
                 scrollbar.Pages = pages;
             }
 
@@ -114,7 +115,7 @@ namespace sdv_helper.Menu
                     }
                 }
                 Utility.drawTextWithShadow(b, sb.ToString(), Game1.dialogueFont, new Vector2(bStartX + borderWidth, yCoord), Game1.textColor);
-                colorPickers.ElementAt(i).Value.drawAt(b, textLength + 150, yCoord);
+                colorPickers.ElementAt(i).Value.DrawAt(b, textLength + 150, yCoord);
             }
 
             if (!Game1.options.hardwareCursor)
@@ -123,36 +124,36 @@ namespace sdv_helper.Menu
                     Game1.pixelZoom + Game1.dialogueButtonScale / 150f, SpriteEffects.None, 1f);
         }
 
-        private void resetColorPickers()
+        private void ResetColorPickers()
         {
             // for every entry in a category do this
-            List<string> keys = settings.dSettings.Keys.ToList();
+            List<string> keys = settings.DSettings.Keys.ToList();
             keys.Sort();
 
             colorPickers.Clear();
             foreach (string key in keys)
             {
-                ColorComponent c = new ColorComponent(key, settings.dSettings[key], settings);
+                ColorComponent c = new ColorComponent(key, settings.DSettings[key], settings);
                 colorPickers.Add(key, c);
             }
         }
 
-        private void scrollUp()
+        private void ScrollUp()
         {
-            scrollTo(currentEntry - 1);
+            ScrollTo(currentEntry - 1);
         }
 
-        private void scrollDown()
+        private void ScrollDown()
         {
-            scrollTo(currentEntry + 1);
+            ScrollTo(currentEntry + 1);
         }
 
-        private void scrollTo(int position)
+        private void ScrollTo(int position)
         {
             if (position > pages || position < 0) return;
             currentEntry = position;
-            scrollbar.setBarAt(position);
-            resetColorPickers(); // kind of bad, because of unnecessary resort
+            scrollbar.SetBarAt(position);
+            ResetColorPickers(); // kind of bad, because of unnecessary resort
         }
     }
 }

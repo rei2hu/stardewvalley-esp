@@ -13,7 +13,6 @@ namespace sdv_helper
         private static Detector detector;
         private static Settings settings;
         private static DrawingManager drawingManager;
-        private static ConfigMenu configMenu;
 
         public override void Entry(IModHelper helper)
         {
@@ -23,7 +22,6 @@ namespace sdv_helper
                 .AddDetector("Object")
                 .AddDetector("FarmAnimal");
             drawingManager = new DrawingManager(settings);
-            configMenu = new ConfigMenu(settings);
 
             Helper.Events.Display.RenderingHud += Display_RenderingHud;
             Helper.Events.Player.Warped += Player_Warped;
@@ -45,7 +43,8 @@ namespace sdv_helper
             }
             else if (e.Button == SButton.K)
             {
-                Game1.activeClickableMenu = new ConfigMenu(settings); // configMenu;
+                // questionable, but handles resizing pretty well
+                Game1.activeClickableMenu = new ConfigMenu(settings);
             }
         }
 

@@ -13,10 +13,10 @@ namespace sdv_helper.Menu
 {
     class ColorComponent : IClickableMenu
     {
-        private DiscreteColorPicker colorPicker;
+        private readonly DiscreteColorPicker colorPicker;
         private ClickableComponent toggleVisibility;
-        private Settings settings;
-        private string name;
+        private readonly Settings settings;
+        private readonly string name;
 
         public ColorComponent(string name, int color, Settings settings)
         {
@@ -46,7 +46,7 @@ namespace sdv_helper.Menu
             }
         }
 
-        public void drawAt(SpriteBatch b, int x, int y)
+        public void DrawAt(SpriteBatch b, int x, int y)
         {
             colorPicker.xPositionOnScreen = x;
             colorPicker.yPositionOnScreen = y;
