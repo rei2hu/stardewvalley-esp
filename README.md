@@ -2,9 +2,9 @@
 Onscreen indicators for various entities and objects in Stardew Valley.
 
 ### Example pictures
-foragables | npcs
-:-----------:|:----------------------:
-![example1-npcs](https://i.imgur.com/U9TZGnw.png)|![example2-foraging](https://i.imgur.com/SvqttR7.png)
+foragables | npcs | a lot of things | menu
+:-----------:|:----------------------:|:------:|:-------:
+![example1-npcs](https://i.imgur.com/U9TZGnw.png)|![example2-foraging](https://i.imgur.com/SvqttR7.png)|![example3-colorful](https://i.imgur.com/ptozisY.png)|![example4-menu](https://i.imgur.com/ItBPOIu.png)
 
 ### Planned features
 - [x] Filter objects
@@ -17,23 +17,22 @@ foragables | npcs
   - [x] Stone, twigs, weed
   - [ ] Dropped stuff
   - [ ] Fishing hotspots
-- [ ] General QOL
+- [x] General QOL
   - [x] Ingame menu to change settings
 
 ### Settings
-When you first start the mod, a file called `settings.json` will be placed in the same folder as the mod location e.g. "Stardew Valley/Mods/sdv-helper". As entities are encountered in the game, the file will be populated, however you can populate it manually
-if you want. Each entry is formatted like so:
+When you first start the mod, a file called `settings.json` will be placed in the same folder as the mod location e.g. "Stardew Valley/Mods/sdv-helper". As entities are encountered in the game, the file will be populated, however you can populate it manually if you want. Each entry is formatted like so:
 ```js
 {
-  "Name": [enabled, r, g, b, a],
+  "Name": number,
   // ...
 }
 ```
 - Name is the name of the object e.g. Weeds, Stone, and for NPCs and animals, their actual name.
-- enabled is a number that determines whether or not something is enabled. 0 or less means it is disabled and anything greater than that means it is enabled.
-- The final three values are the color you want the background of the label to be: red, green, blue, and alpha. Everything automatically gets halved for a cool transparent effect (which I might change in the future).
+- the number is a number between 0 and 20 (21?). 0 means it is disabled, and other numbers mean other colors. Specifically it follows the color picker you can find in a chest's menu or in the menu for this.
 
-You can change the file while ingame and reload it by pressing the `L` key, you should see changes take place pretty quickly. You can save settings with the `K` key, although there's no point right now because you can't change settings in game and it would be saved anyways if you could.
+### Menu
+You can open the configuration menu with `k`. It should be pretty straightforward; it allows you to easily pick colors or disable labels.
 
 ### Is this cheating?
 I don't know, but who cares it's Stardew Valley.
