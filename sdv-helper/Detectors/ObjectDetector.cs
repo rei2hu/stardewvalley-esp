@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework;
 using sdv_helper.Config;
 using StardewValley;
 
-// basically single blocks you can break
 namespace sdv_helper.Detectors
 {
     class ObjectDetector : IDetector
     {
         public GameLocation location;
         private readonly Settings settings;
+
         public ObjectDetector(Settings settings)
         {
             this.settings = settings;
@@ -19,15 +19,9 @@ namespace sdv_helper.Detectors
         {
             EntityList e = new EntityList();
             if (location != null)
-            {
                 foreach (var c in location.Objects.Pairs)
-                {
-                    // if (!(c is KeyValuePair<Vector2, StardewValley.Object>))
-                    // throw new Exception("Invalid object type provided to Object detection list");
                     if (location.isTileOnMap(c.Key))
                         e.Add(new KeyValuePair<Vector2, object>(c.Key, c.Value));
-                }
-            }
             return e;
         }
 

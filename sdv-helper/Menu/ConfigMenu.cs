@@ -22,59 +22,62 @@ namespace sdv_helper.Menu
         private readonly Scrollbar scrollbar;
         private readonly Settings settings;
 
-        private readonly int bWidth = 1200;
+        private readonly int bWidth = (int)(textLength * 1.5);
         private readonly int bStartX = paddingX * 2;
         private readonly int bStartY = paddingY;
         private int currentEntry = 0;
         private bool scrolling = false;
 
         private readonly int bHeight;
-        private int pages;
         private readonly int entriesPerPage;
+        private int pages;
 
         public ConfigMenu(Settings settings)
         {
+            this.settings = settings;
             bHeight = Game1.viewport.Height - paddingY * 2;
             entriesPerPage = (int)Math.Floor(bHeight / (Game1.dialogueFont.MeasureString("A").Y + 20));
-
-            this.settings = settings;
             pages = settings.DSettings.Count - entriesPerPage;
             scrollbar = new Scrollbar(bStartX + bWidth, bStartY, bHeight - borderWidth, pages);
+
             ResetColorPickers();
         }
 
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
-            foreach (var c in colorPickers)
-            {
+            foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
                 c.Value.receiveLeftClick(x, y, playSound);
-            }
         }
 
         public override void releaseLeftClick(int x, int y)
         {
+            if (colorPickerOpen())
+                return;
+
             scrolling = false;
         }
 
         public override void leftClickHeld(int x, int y)
         {
+            if (colorPickerOpen())
+                return;
+
             if (x >= scrollbar.Left && x <= scrollbar.Right && y >= scrollbar.Top && y <= scrollbar.Bottom)
-            {
                 scrolling = true;
-            }
-            if (!scrolling) return;
+            if (!scrolling)
+                return;
 
             int sbHeight = scrollbar.Bottom - scrollbar.Top;
             int position = (int)(1f * (Game1.getMouseY() - scrollbar.Top) / sbHeight * pages);
-            ScrollTo(position);
+            scrollTo(position);
         }
 
         public override void receiveScrollWheelAction(int direction)
         {
             if (direction < 0)
-                ScrollDown();
+                scrollDown();
             else
-                ScrollUp();
+                scrollUp();
         }
 
         public override void draw(SpriteBatch b)
@@ -97,6 +100,8 @@ namespace sdv_helper.Menu
             Vector2 size = Game1.dialogueFont.MeasureString(menuText);
             drawTextureBox(b, Game1.menuTexture, titleRect, bStartX - paddingX / 2, bStartY - paddingY / 2, (int)size.X + paddingX, (int)size.Y + paddingY, Color.White);
             Utility.drawTextWithShadow(b, menuText, Game1.dialogueFont, new Vector2(bStartX, bStartY), Game1.textColor);
+
+            // scrollbar
             scrollbar.draw(b);
 
             StringBuilder sb = new StringBuilder();
@@ -137,22 +142,30 @@ namespace sdv_helper.Menu
             }
         }
 
-        private void ScrollUp()
+        private void scrollUp()
         {
-            ScrollTo(currentEntry - 1);
+            scrollTo(currentEntry - 1);
         }
 
-        private void ScrollDown()
+        private void scrollDown()
         {
-            ScrollTo(currentEntry + 1);
+            scrollTo(currentEntry + 1);
         }
 
-        private void ScrollTo(int position)
+        private void scrollTo(int position)
         {
             if (position > pages || position < 0) return;
+
             currentEntry = position;
             scrollbar.SetBarAt(position);
             ResetColorPickers(); // kind of bad, because of unnecessary resort
+        }
+
+        private bool colorPickerOpen()
+        {
+            foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
+                if (c.Value.colorPicker.visible) return true;
+            return false;
         }
     }
 }

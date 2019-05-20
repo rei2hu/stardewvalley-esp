@@ -5,13 +5,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-// this includes monsters
 namespace sdv_helper.Detectors
 {
     class NPCDetector : IDetector
     {
         private GameLocation location;
         private readonly Settings settings;
+
         public NPCDetector(Settings settings)
         {
             this.settings = settings;
@@ -31,13 +31,8 @@ namespace sdv_helper.Detectors
                 }
                 IEnumerable farmers = Game1.getAllFarmers();
                 foreach (Farmer farmer in farmers)
-                {
-                    if (farmer.currentLocation == location)
-                    {
-                        if (location.isTileOnMap(farmer.Position / Game1.tileSize))
-                            e.Add(new KeyValuePair<Vector2, object>(farmer.Position / Game1.tileSize, farmer));
-                    }
-                }
+                    if (farmer.currentLocation == location && location.isTileOnMap(farmer.Position / Game1.tileSize))
+                        e.Add(new KeyValuePair<Vector2, object>(farmer.Position / Game1.tileSize, farmer));
             }
             return e;
         }

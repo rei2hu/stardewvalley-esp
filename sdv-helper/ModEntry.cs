@@ -17,12 +17,12 @@ namespace sdv_helper
         public override void Entry(IModHelper helper)
         {
             settings = new Config.Settings(Helper);
+            drawingManager = new DrawingManager(settings);
             detector = new Detector(settings);
             detector.AddDetector("NPC")
                 .AddDetector("Object")
                 .AddDetector("FarmAnimal")
                 .AddDetector("WaterEntity");
-            drawingManager = new DrawingManager(settings);
 
             Helper.Events.Display.RenderingHud += Display_RenderingHud;
             Helper.Events.Player.Warped += Player_Warped;
@@ -43,10 +43,7 @@ namespace sdv_helper
                 drawingManager.SendHudMessage("Loaded settings from file", 4);
             }
             else if (e.Button == SButton.K)
-            {
-                // questionable, but handles resizing pretty well
                 Game1.activeClickableMenu = new ConfigMenu(settings);
-            }
         }
 
         private void Player_Warped(object sender, WarpedEventArgs e)

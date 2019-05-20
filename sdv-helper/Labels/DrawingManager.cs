@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using sdv_helper.Config;
 using sdv_helper.Detectors;
 using StardewValley;
 using System;
@@ -8,9 +9,9 @@ namespace sdv_helper.Labels
     class DrawingManager
     {
         private readonly ColorManager colorManager;
-        private readonly Config.Settings settings;
+        private readonly Settings settings;
 
-        public DrawingManager(Config.Settings settings)
+        public DrawingManager(Settings settings)
         {
             colorManager = new ColorManager();
             this.settings = settings;
@@ -42,7 +43,8 @@ namespace sdv_helper.Labels
                 string name = (string)target.GetType().GetProperty("Name").GetValue(target);
                 int iColor = settings.GetColorFor(name);
 
-                if (iColor == 0) continue;
+                if (iColor == 0)
+                    continue;
 
                 Color c = colorManager.ColorFromInt(iColor);
 

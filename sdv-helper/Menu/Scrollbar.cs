@@ -11,12 +11,14 @@ namespace sdv_helper.Menu
         private readonly ClickableTextureComponent upArrow;
         private readonly ClickableTextureComponent downArrow;
         private Rectangle runner;
+
         public int Pages { get; set; }
         public int Position { get; set; } = 0;
         public int Top { get; set; }
         public int Bottom { get; set; }
         public int Left { get; set; }
         public int Right { get; set; }
+
         public Scrollbar(int x, int y, int h, int pages)
         {
             upArrow = new ClickableTextureComponent(new Rectangle(x + 16, y, 44, 48), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), 4f, false);
@@ -28,23 +30,22 @@ namespace sdv_helper.Menu
             Left = bar.bounds.X;
             Right = Left + bar.bounds.Width;
             runner = new Rectangle(Left, Top, bar.bounds.Width, Bottom);
-            this.Pages = pages;
+            Pages = pages;
+        }
+
+        public override void receiveLeftClick(int x, int y, bool playSound = true)
+        {
+            base.receiveLeftClick(x, y, playSound);
         }
 
         public void SetBarAt(int i)
         {
             if (i >= Pages)
-            {
                 bar.bounds.Y = runner.Bottom - bar.bounds.Height;
-            }
             else if (i <= 0)
-            {
                 bar.bounds.Y = runner.Top;
-            }
             else
-            {
                 bar.bounds.Y = (int)(runner.Top + (1f * i / Pages) * (runner.Height - bar.bounds.Height));
-            }
         }
 
         public override void draw(SpriteBatch b)

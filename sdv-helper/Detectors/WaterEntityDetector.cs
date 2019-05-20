@@ -25,14 +25,10 @@ namespace sdv_helper.Detectors
             EntityList e = new EntityList();
             if (location != null)
             {
-                if (this.location.fishSplashAnimation != null)
-                {
+                if (location.fishSplashAnimation != null)
                     e.Add(new KeyValuePair<Vector2, object>(this.location.fishSplashAnimation.Position / Game1.tileSize, new WaterEntity() { Name = "Fishing Hotspot" }));
-                }
-                if (this.location.orePanAnimation != null)
-                {
+                if (location.orePanAnimation != null)
                     e.Add(new KeyValuePair<Vector2, object>(this.location.orePanAnimation.Position / Game1.tileSize, new WaterEntity() { Name = "Ore Panning" }));
-                }
             }
             return e;
         }

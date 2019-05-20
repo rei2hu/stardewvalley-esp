@@ -8,10 +8,11 @@ namespace sdv_helper.Menu
 {
     class ColorComponent : IClickableMenu
     {
-        private readonly DiscreteColorPicker colorPicker;
         private ClickableComponent toggleVisibility;
         private readonly Settings settings;
         private readonly string name;
+
+        public DiscreteColorPicker colorPicker { get; }
 
         public ColorComponent(string name, int color, Settings settings)
         {
@@ -32,13 +33,13 @@ namespace sdv_helper.Menu
             if (oldColor != colorPicker.colorSelection)
             {
                 settings.SetColorFor(name, colorPicker.colorSelection);
+                return;
             }
-            colorPicker.visible = false;
 
             if (toggleVisibility != null && toggleVisibility.containsPoint(x, y))
-            {
                 colorPicker.visible = !colorPicker.visible;
-            }
+            else
+                colorPicker.visible = false;
         }
 
         public void DrawAt(SpriteBatch b, int x, int y)
