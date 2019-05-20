@@ -51,7 +51,7 @@ namespace sdv_helper.Menu
 
         public override void releaseLeftClick(int x, int y)
         {
-            if (colorPickerOpen())
+            if (IsColorPickerOpen())
                 return;
 
             scrolling = false;
@@ -59,7 +59,7 @@ namespace sdv_helper.Menu
 
         public override void leftClickHeld(int x, int y)
         {
-            if (colorPickerOpen())
+            if (IsColorPickerOpen())
                 return;
 
             if (x >= scrollbar.Left && x <= scrollbar.Right && y >= scrollbar.Top && y <= scrollbar.Bottom)
@@ -69,15 +69,15 @@ namespace sdv_helper.Menu
 
             int sbHeight = scrollbar.Bottom - scrollbar.Top;
             int position = (int)(1f * (Game1.getMouseY() - scrollbar.Top) / sbHeight * pages);
-            scrollTo(position);
+            ScrollTo(position);
         }
 
         public override void receiveScrollWheelAction(int direction)
         {
             if (direction < 0)
-                scrollDown();
+                ScrollDown();
             else
-                scrollUp();
+                ScrollUp();
         }
 
         public override void draw(SpriteBatch b)
@@ -142,17 +142,17 @@ namespace sdv_helper.Menu
             }
         }
 
-        private void scrollUp()
+        private void ScrollUp()
         {
-            scrollTo(currentEntry - 1);
+            ScrollTo(currentEntry - 1);
         }
 
-        private void scrollDown()
+        private void ScrollDown()
         {
-            scrollTo(currentEntry + 1);
+            ScrollTo(currentEntry + 1);
         }
 
-        private void scrollTo(int position)
+        private void ScrollTo(int position)
         {
             if (position > pages || position < 0) return;
 
@@ -161,10 +161,10 @@ namespace sdv_helper.Menu
             ResetColorPickers(); // kind of bad, because of unnecessary resort
         }
 
-        private bool colorPickerOpen()
+        private bool IsColorPickerOpen()
         {
             foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
-                if (c.Value.colorPicker.visible) return true;
+                if (c.Value.ColorPicker.visible) return true;
             return false;
         }
     }
