@@ -19,7 +19,7 @@ foragables | npcs | a lot of things | menu
   - [x] Fishing hotspots
 - [x] General QOL
   - [x] Ingame menu to change settings
-- [ ] Cleanup
+- [x] Cleanup
 
 ### Settings
 When you first start the mod, a file called `settings.json` will be placed in the same folder as the mod location e.g. "Stardew Valley/Mods/sdv-helper". As entities are encountered in the game, the file will be populated, however you can populate it manually if you want. Each entry is formatted like so:
@@ -33,7 +33,7 @@ When you first start the mod, a file called `settings.json` will be placed in th
 - the number is a number between 0 and 20 (21?). 0 means it is disabled, and other numbers mean other colors. Specifically it follows the color picker you can find in a chest's menu or in the menu for this.
 
 ### Menu
-You can open the configuration menu with `k`. It should be pretty straightforward; it allows you to easily pick colors or disable labels.
+You can open the configuration menu with `k`. It should be pretty straightforward; it allows you to easily pick colors or disable labels. If you change the settings in the middle of a game via the actual file, they can be reloaded with `l`.
 
 ### Is this cheating?
 I don't know, but who cares it's Stardew Valley.
