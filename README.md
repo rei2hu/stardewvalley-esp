@@ -17,11 +17,14 @@ foragables | npcs | a lot of things | menu
   - [x] Stone, twigs, weed
   - [x] Ore panning spots
   - [x] Fishing hotspots
-- [x] General QOL
-  - [x] Ingame menu to change settings
+- [ ] Ingame menu to change settings
+  - [x] Pick colors for objects
+  - [ ] Pick hotkeys
 - [x] Cleanup
 
 ### Settings
+(outdated as of [28ab0cc](https://github.com/rei2hu/stardewvalley-esp/commit/28ab0cc395f4afcd9fb01af18deaa6173e12f553), valid for any version up to and including 1.0.2)
+
 When you first start the mod, a file called `settings.json` will be placed in the same folder as the mod location e.g. "Stardew Valley/Mods/sdv-helper". As entities are encountered in the game, the file will be populated, however you can populate it manually if you want. Each entry is formatted like so:
 ```js
 {
