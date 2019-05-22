@@ -12,19 +12,23 @@ namespace sdv_helper.Menu
 {
     class ConfigMenu : IClickableMenu
     {
-        private static readonly string menuText = "Stardew Valley ESP";
-        private static readonly int paddingX = 30;
-        private static readonly int paddingY = 20;
-        private static readonly Rectangle titleRect = new Rectangle(0, 256, 60, 60);
-        private static readonly int textLength = 300;
+        public static readonly Rectangle TitleRect = new Rectangle(0, 256, 60, 60);
+        public static readonly string MenuText = "Stardew Valley ESP";
+        public static readonly string[] TabNames = new string[] { "Colors", "Hotkeys" };
+        public static readonly int PaddingX = 30;
+        public static readonly int PaddingY = 20;
+        public static readonly int TextLength = 300;
+        public static readonly int TabHeight = 50;
 
         private readonly Dictionary<string, ColorComponent> colorPickers = new Dictionary<string, ColorComponent>();
+        private readonly List<Tab> tabs = new List<Tab>();
         private readonly Scrollbar scrollbar;
         private readonly Settings settings;
 
-        private readonly int bWidth = (int)(textLength * 1.5);
-        private readonly int bStartX = paddingX * 2;
-        private readonly int bStartY = paddingY;
+        private readonly int bWidth = (int)(TextLength * 1.5);
+        private readonly int bStartX = PaddingX * 2;
+        private readonly int bStartY = PaddingY;
+        private int tabIndex = 0;
         private int currentEntry = 0;
         private bool scrolling = false;
 
@@ -35,18 +39,33 @@ namespace sdv_helper.Menu
         public ConfigMenu(Settings settings)
         {
             this.settings = settings;
-            bHeight = Game1.viewport.Height - paddingY * 2;
-            entriesPerPage = (int)Math.Floor(bHeight / (Game1.dialogueFont.MeasureString("A").Y + 20));
+            bHeight = Game1.viewport.Height - PaddingY * 2 - TabHeight;
+            entriesPerPage = (int)Math.Floor((bHeight - borderWidth * 2) / (Game1.dialogueFont.MeasureString("A").Y + 20));
             pages = settings.DSettings.Count - entriesPerPage;
             scrollbar = new Scrollbar(bStartX + bWidth, bStartY, bHeight - borderWidth, pages);
 
             ResetColorPickers();
+
+            int off = 0;
+            for (int i = 0; i < TabNames.Length; i++)
+            {
+                Vector2 size = Game1.smallFont.MeasureString(TabNames[i]);
+                int width = (int)size.X + PaddingX;
+                tabs.Add(new Tab(bStartX + off, bStartY + bHeight, width, (int)size.Y + PaddingY, TabNames[i], i));
+                off += width + PaddingX / 2;
+            }
         }
 
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
                 c.Value.receiveLeftClick(x, y, playSound);
+            foreach (Tab t in tabs)
+                if (t.WasClicked(x, y))
+                {
+                    SwitchTabTo(t.TabIndex);
+                    break;
+                }
         }
 
         public override void releaseLeftClick(int x, int y)
@@ -94,33 +113,53 @@ namespace sdv_helper.Menu
                 b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.5f);
 
             // main menu thing
-            drawTextureBox(b, Game1.menuTexture, titleRect, bStartX, bStartY, bWidth, bHeight, Color.White);
+            drawTextureBox(b, Game1.menuTexture, TitleRect, bStartX, bStartY, bWidth, bHeight, Color.White);
 
             // title box
-            Vector2 size = Game1.dialogueFont.MeasureString(menuText);
-            drawTextureBox(b, Game1.menuTexture, titleRect, bStartX - paddingX / 2, bStartY - paddingY / 2, (int)size.X + paddingX, (int)size.Y + paddingY, Color.White);
-            Utility.drawTextWithShadow(b, menuText, Game1.dialogueFont, new Vector2(bStartX, bStartY), Game1.textColor);
+            Vector2 size = Game1.dialogueFont.MeasureString(MenuText);
+            drawTextureBox(b, Game1.menuTexture, TitleRect, bStartX - PaddingX / 2, bStartY - PaddingY / 2, (int)size.X + PaddingX, (int)size.Y + PaddingY, Color.White);
+            Utility.drawTextWithShadow(b, MenuText, Game1.dialogueFont, new Vector2(bStartX, bStartY), Game1.textColor);
 
             // scrollbar
             scrollbar.draw(b);
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = currentEntry; i < currentEntry + entriesPerPage; i++)
+            // menu content
+            int yCoord;
+            switch (tabIndex)
             {
-                sb.Clear();
-                int yCoord = bStartY + borderWidth * 2 + (i - currentEntry) * (28 + 36 + 5);
-                foreach (char c in colorPickers.ElementAt(i).Key)
-                {
-                    sb.Append(c);
-                    if (Game1.dialogueFont.MeasureString(sb).X > textLength)
+                case 1:
+                    yCoord = bStartY + borderWidth * 2;
+                    Utility.drawTextWithShadow(b, "Menu Key:", Game1.dialogueFont, new Vector2(bStartX + borderWidth, yCoord), Game1.textColor);
+                    Utility.drawTextWithShadow(b, settings.MenuKey.ToString(), Game1.dialogueFont, new Vector2(bStartX + bWidth - borderWidth * 2, yCoord), Game1.textColor);
+                    yCoord += 28 + 36 + 5;
+                    Utility.drawTextWithShadow(b, "Load Key:", Game1.dialogueFont, new Vector2(bStartX + borderWidth, yCoord), Game1.textColor);
+                    Utility.drawTextWithShadow(b, settings.LoadKey.ToString(), Game1.dialogueFont, new Vector2(bStartX + bWidth - borderWidth * 2, yCoord), Game1.textColor);
+                    break;
+                case 0:
+                default:
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = currentEntry; i < currentEntry + entriesPerPage; i++)
                     {
-                        sb.Remove(sb.Length - 2, 2);
-                        break;
+                        sb.Clear();
+                        yCoord = bStartY + borderWidth * 2 + (i - currentEntry) * (28 + 36 + 5);
+                        foreach (char c in colorPickers.ElementAt(i).Key)
+                        {
+                            sb.Append(c);
+                            if (Game1.dialogueFont.MeasureString(sb).X > TextLength)
+                            {
+                                sb.Remove(sb.Length - 2, 2);
+                                break;
+                            }
+                        }
+                        Utility.drawTextWithShadow(b, sb.ToString(), Game1.dialogueFont, new Vector2(bStartX + borderWidth, yCoord), Game1.textColor);
+                        colorPickers.ElementAt(i).Value.DrawAt(b, TextLength + 150, yCoord);
                     }
-                }
-                Utility.drawTextWithShadow(b, sb.ToString(), Game1.dialogueFont, new Vector2(bStartX + borderWidth, yCoord), Game1.textColor);
-                colorPickers.ElementAt(i).Value.DrawAt(b, textLength + 150, yCoord);
+                    break;
             }
+
+            // tabs
+            foreach (Tab t in tabs)
+                t.draw(b);
 
             if (!Game1.options.hardwareCursor)
                 b.Draw(Game1.mouseCursors, new Vector2(Game1.getOldMouseX(), Game1.getOldMouseY()),
@@ -166,6 +205,13 @@ namespace sdv_helper.Menu
             foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
                 if (c.Value.ColorPicker.visible) return true;
             return false;
+        }
+
+        private void SwitchTabTo(int index)
+        {
+            if (tabIndex == index)
+                return;
+            tabIndex = index;
         }
     }
 }
