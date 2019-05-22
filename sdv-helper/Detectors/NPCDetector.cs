@@ -27,7 +27,7 @@ namespace sdv_helper.Detectors
                     if (!(c is NPC))
                         throw new Exception("Invalid object type provided to NPC detection list");
                     if (location.isTileOnMap(c.getTileLocation()))
-                        e.Add(new KeyValuePair<Vector2, object>(c.getTileLocation(), c));
+                        e.Add(new KeyValuePair<Vector2, object>(c.Position / Game1.tileSize, c));
                 }
                 IEnumerable farmers = Game1.getAllFarmers();
                 foreach (Farmer farmer in farmers)
