@@ -6,12 +6,12 @@ using System;
 
 namespace sdv_helper.Labels
 {
-    class DrawingManager
+    class LabelDrawingManager
     {
         private readonly ColorManager colorManager;
         private readonly Settings settings;
 
-        public DrawingManager(Settings settings)
+        public LabelDrawingManager(Settings settings)
         {
             colorManager = new ColorManager();
             this.settings = settings;

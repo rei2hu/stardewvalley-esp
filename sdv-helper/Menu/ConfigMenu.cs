@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using sdv_helper.Config;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 using System;
@@ -22,50 +24,58 @@ namespace sdv_helper.Menu
 
         private readonly Dictionary<string, ColorComponent> colorPickers = new Dictionary<string, ColorComponent>();
         private readonly List<Tab> tabs = new List<Tab>();
-        private readonly Scrollbar scrollbar;
+        private readonly List<Tab> settingsTabs = new List<Tab>();
         private readonly Settings settings;
 
         private readonly int bWidth = (int)(TextLength * 1.5);
         private readonly int bStartX = PaddingX * 2;
         private readonly int bStartY = PaddingY;
-        private int tabIndex = 0;
         private int currentEntry = 0;
         private bool scrolling = false;
 
-        private readonly int bHeight;
-        private readonly int entriesPerPage;
+        private Scrollbar scrollbar;
+        private int bHeight;
+        private int entriesPerPage;
         private int pages;
+
+        // 0x01 - colors window
+        // 0x10 - settings window
+        // 0x20 - settings window picking menu key
+        // 0x30 - settings window picking load key
+        private int state = 0x01;
 
         public ConfigMenu(Settings settings)
         {
             this.settings = settings;
-            bHeight = Game1.viewport.Height - PaddingY * 2 - TabHeight;
-            entriesPerPage = (int)Math.Floor((bHeight - borderWidth * 2) / (Game1.dialogueFont.MeasureString("A").Y + 20));
-            pages = settings.DSettings.Count - entriesPerPage;
-            scrollbar = new Scrollbar(bStartX + bWidth, bStartY, bHeight - borderWidth, pages);
-
             ResetColorPickers();
-
-            int off = 0;
-            for (int i = 0; i < TabNames.Length; i++)
-            {
-                Vector2 size = Game1.smallFont.MeasureString(TabNames[i]);
-                int width = (int)size.X + PaddingX;
-                tabs.Add(new Tab(bStartX + off, bStartY + bHeight, width, (int)size.Y + PaddingY, TabNames[i], i));
-                off += width + PaddingX / 2;
-            }
+            ResetSizes();
         }
 
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
-            foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
-                c.Value.receiveLeftClick(x, y, playSound);
             foreach (Tab t in tabs)
                 if (t.WasClicked(x, y))
                 {
-                    SwitchTabTo(t.TabIndex);
-                    break;
+                    state = 1 << t.TabIndex * 4;
+                    return;
                 }
+            // if color menu
+            if ((state & 0xF) > 0)
+                foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
+                    c.Value.receiveLeftClick(x, y, playSound);
+            // if settings menu, not picking color
+            else if ((state & 0xF0) == 0x10)
+            {
+                foreach (Tab t in settingsTabs)
+                    if (t.WasClicked(x, y))
+                    {
+                        state += t.TabIndex << 4;
+                        return;
+                    }
+            }
+            // was picking color, but clicked so cancel it
+            else
+                state = 0x10;
         }
 
         public override void releaseLeftClick(int x, int y)
@@ -93,10 +103,38 @@ namespace sdv_helper.Menu
 
         public override void receiveScrollWheelAction(int direction)
         {
+            if ((state & 0xF) == 0) return;
+
             if (direction < 0)
                 ScrollDown();
             else
                 ScrollUp();
+        }
+
+        public override void receiveKeyPress(Keys key)
+        {
+            if (Game1.options.doesInputListContain(Game1.options.menuButton, key) && this.readyToClose())
+            {
+                this.exitThisMenu(true);
+                return;
+            }
+            if (key == Keys.None)
+                return;
+            int result = state & 0xF0;
+            if (result <= 0x10)
+                return;
+            if (result == 0x20)
+                settings.MenuKey = key.ToSButton();
+            else if (result == 0x30)
+                settings.LoadKey = key.ToSButton();
+            state = 0x10;
+            ResetSettingsTabs();
+        }
+
+        public override void gameWindowSizeChanged(Rectangle oldBounds, Rectangle newBounds)
+        {
+            base.gameWindowSizeChanged(oldBounds, newBounds);
+            ResetSizes();
         }
 
         public override void draw(SpriteBatch b)
@@ -120,25 +158,25 @@ namespace sdv_helper.Menu
             drawTextureBox(b, Game1.menuTexture, TitleRect, bStartX - PaddingX / 2, bStartY - PaddingY / 2, (int)size.X + PaddingX, (int)size.Y + PaddingY, Color.White);
             Utility.drawTextWithShadow(b, MenuText, Game1.dialogueFont, new Vector2(bStartX, bStartY), Game1.textColor);
 
-            // scrollbar
-            scrollbar.draw(b);
-
             // menu content
             int yCoord;
-            switch (tabIndex)
+            switch (state)
             {
-                case 1:
-                    yCoord = bStartY + borderWidth * 2;
-                    Utility.drawTextWithShadow(b, "Menu Key:", Game1.dialogueFont, new Vector2(bStartX + borderWidth, yCoord), Game1.textColor);
-                    Utility.drawTextWithShadow(b, settings.MenuKey.ToString(), Game1.dialogueFont, new Vector2(bStartX + bWidth - borderWidth * 2, yCoord), Game1.textColor);
-                    yCoord += 28 + 36 + 5;
-                    Utility.drawTextWithShadow(b, "Load Key:", Game1.dialogueFont, new Vector2(bStartX + borderWidth, yCoord), Game1.textColor);
-                    Utility.drawTextWithShadow(b, settings.LoadKey.ToString(), Game1.dialogueFont, new Vector2(bStartX + bWidth - borderWidth * 2, yCoord), Game1.textColor);
+                case 0x20:
+                case 0x30:
+                    Utility.drawTextWithShadow(b, "Press a key!", Game1.dialogueFont, new Vector2(bStartX + borderWidth, bStartY + bHeight - 200), Game1.textColor);
+                    goto case 0x10;
+                case 0x10:
+                    foreach (Tab t in settingsTabs)
+                        t.draw(b);
                     break;
-                case 0:
+                case 0x01:
                 default:
+                    // scrollbar
+                    scrollbar.draw(b);
+
                     StringBuilder sb = new StringBuilder();
-                    for (int i = currentEntry; i < currentEntry + entriesPerPage; i++)
+                    for (int i = currentEntry; i < currentEntry + entriesPerPage && i < colorPickers.Count; i++)
                     {
                         sb.Clear();
                         yCoord = bStartY + borderWidth * 2 + (i - currentEntry) * (28 + 36 + 5);
@@ -167,9 +205,45 @@ namespace sdv_helper.Menu
                     Game1.pixelZoom + Game1.dialogueButtonScale / 150f, SpriteEffects.None, 1f);
         }
 
+        private void ResetSettingsTabs()
+        {
+            settingsTabs.Clear();
+            string label = "Menu Key: " + settings.MenuKey;
+            Vector2 size = Game1.dialogueFont.MeasureString(label);
+            settingsTabs.Add(new Tab(bStartX + PaddingX / 2, borderWidth * 2 + bStartY + PaddingY / 2, bWidth - PaddingX,
+                (int)size.Y + PaddingY, label, 1, Game1.dialogueFont));
+            label = "Load Key: " + settings.LoadKey;
+            size = Game1.dialogueFont.MeasureString(label);
+            settingsTabs.Add(new Tab(bStartX + PaddingX / 2, (int)size.Y + PaddingY + borderWidth * 2 + bStartY + PaddingY / 2,
+                bWidth - PaddingX, (int)size.Y + PaddingY, label, 2, Game1.dialogueFont));
+        }
+
+        private void ResetSizes()
+        {
+            bHeight = Game1.viewport.Height - PaddingY * 2 - TabHeight - PaddingY;
+            entriesPerPage = (int)Math.Floor((bHeight - borderWidth * 2) / (Game1.dialogueFont.MeasureString("A").Y + 20));
+            pages = settings.DSettings.Count - entriesPerPage;
+            scrollbar = new Scrollbar(bStartX + bWidth, bStartY, bHeight - borderWidth, pages);
+
+            ResetTabs();
+            ResetSettingsTabs();
+        }
+
+        private void ResetTabs()
+        {
+            tabs.Clear();
+            int off = 0;
+            for (int i = 0; i < TabNames.Length; i++)
+            {
+                Vector2 size = Game1.smallFont.MeasureString(TabNames[i]);
+                int width = (int)size.X + PaddingX;
+                tabs.Add(new Tab(bStartX + off, bStartY + bHeight + PaddingY / 2, width, (int)size.Y + PaddingY, TabNames[i], i));
+                off += width + PaddingX / 2;
+            }
+        }
+
         private void ResetColorPickers()
         {
-            // for every entry in a category do this
             List<string> keys = settings.DSettings.Keys.ToList();
             keys.Sort();
 
@@ -179,6 +253,15 @@ namespace sdv_helper.Menu
                 ColorComponent c = new ColorComponent(key, settings.DSettings[key], settings);
                 colorPickers.Add(key, c);
             }
+        }
+
+        private bool IsColorPickerOpen()
+        {
+            if ((state & 0x0F) == 0)
+                return false;
+            foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
+                if (c.Value.ColorPicker.visible) return true;
+            return false;
         }
 
         private void ScrollUp()
@@ -198,20 +281,6 @@ namespace sdv_helper.Menu
             currentEntry = position;
             scrollbar.SetBarAt(position);
             ResetColorPickers(); // kind of bad, because of unnecessary resort
-        }
-
-        private bool IsColorPickerOpen()
-        {
-            foreach (KeyValuePair<string, ColorComponent> c in colorPickers)
-                if (c.Value.ColorPicker.visible) return true;
-            return false;
-        }
-
-        private void SwitchTabTo(int index)
-        {
-            if (tabIndex == index)
-                return;
-            tabIndex = index;
         }
     }
 }

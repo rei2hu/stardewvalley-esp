@@ -23,12 +23,12 @@ namespace sdv_helper.Config
         public SButton LoadKey
         {
             get { return settings.LoadKey; }
-            set { settings.LoadKey = value; }
+            set { settings.LoadKey = value; SaveSettings(); }
         }
         public SButton MenuKey
         {
             get { return settings.MenuKey; }
-            set { settings.MenuKey = value; }
+            set { settings.MenuKey = value; SaveSettings(); }
         }
         public Dictionary<string, int> DSettings
         {
