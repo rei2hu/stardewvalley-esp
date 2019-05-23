@@ -35,8 +35,8 @@ namespace sdv_helper.Labels
 
         public Color ColorFromInt(int i)
         {
-            if (i < 0 || i > colors.Length - 1) return Color.Black;
-            return colors[i];
+            if (i < 1 || i > colors.Length) return Color.Black;
+            return colors[i - 1];
         }
     }
 }
