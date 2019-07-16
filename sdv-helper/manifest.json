@@ -5,7 +5,7 @@
   "Description": "Adds name tags to in-game entities for easier detection and finding.",
   "UniqueID": "reimu.sdv-helper",
   "EntryDll": "sdv-helper.dll",
-  "MinimumApiVersion": "2.10.0",
+  "MinimumApiVersion": "2.11.2",
   "UpdateKeys": [
     "GitHub:rei2hu/stardewvalley-esp",
     "Nexus:3917"

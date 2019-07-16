@@ -20,6 +20,17 @@ namespace sdv_helper
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+            helper.Events.Display.RenderingHud += OnRenderingHud;
+            helper.Events.Player.Warped += OnWarped;
+            helper.Events.Input.ButtonPressed += OnButtonPressed;
+        }
+
+        /// <summary>Raised after the game is launched, right before the first update tick. This happens once per game session (unrelated to loading saves). All mods are loaded and initialised at this point, so this is a good time to set up mod integrations.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+        {
             settings = new Settings(Helper);
             configMenu = new ConfigMenu(settings);
             drawingManager = new LabelDrawingManager(settings);
@@ -28,11 +39,8 @@ namespace sdv_helper
                 .AddDetector("Object")
                 .AddDetector("FarmAnimal")
                 .AddDetector("WaterEntity");
-
-            Helper.Events.Display.RenderingHud += OnRenderingHud;
-            Helper.Events.Player.Warped += OnWarped;
-            Helper.Events.Input.ButtonPressed += OnButtonPressed;
         }
+
 
         /// <summary>Raised before drawing the HUD (item toolbar, clock, etc) to the screen. The vanilla HUD may be hidden at this point (e.g. because a menu is open).</summary>
         /// <param name="sender">The event sender.</param>
