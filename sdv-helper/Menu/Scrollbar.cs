@@ -33,11 +33,6 @@ namespace sdv_helper.Menu
             Pages = pages;
         }
 
-        public override void receiveLeftClick(int x, int y, bool playSound = true)
-        {
-            base.receiveLeftClick(x, y, playSound);
-        }
-
         public void SetBarAt(int i)
         {
             if (i >= Pages)

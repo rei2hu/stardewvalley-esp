@@ -8,6 +8,7 @@ using sdv_helper.Menu;
 
 namespace sdv_helper
 {
+    /// <summary>The mod entry class.</summary>
     public class ModEntry : Mod
     {
         private static Detector detector;
@@ -15,9 +16,11 @@ namespace sdv_helper
         private static LabelDrawingManager drawingManager;
         private static ConfigMenu configMenu;
 
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            settings = new Config.Settings(Helper);
+            settings = new Settings(Helper);
             configMenu = new ConfigMenu(settings);
             drawingManager = new LabelDrawingManager(settings);
             detector = new Detector(settings);
@@ -26,18 +29,24 @@ namespace sdv_helper
                 .AddDetector("FarmAnimal")
                 .AddDetector("WaterEntity");
 
-            Helper.Events.Display.RenderingHud += Display_RenderingHud;
-            Helper.Events.Player.Warped += Player_Warped;
-            Helper.Events.Input.ButtonPressed += Input_ButtonPressed;
+            Helper.Events.Display.RenderingHud += OnRenderingHud;
+            Helper.Events.Player.Warped += OnWarped;
+            Helper.Events.Input.ButtonPressed += OnButtonPressed;
         }
 
-        private void Display_RenderingHud(object sender, RenderingHudEventArgs e)
+        /// <summary>Raised before drawing the HUD (item toolbar, clock, etc) to the screen. The vanilla HUD may be hidden at this point (e.g. because a menu is open).</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
             detector.Detect();
             drawingManager.LabelEntities(detector);
         }
 
-        private void Input_ButtonPressed(object sender, ButtonPressedEventArgs e)
+        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
             if (e.Button == settings.LoadKey)
             {
@@ -48,7 +57,10 @@ namespace sdv_helper
                 Game1.activeClickableMenu = configMenu;
         }
 
-        private void Player_Warped(object sender, WarpedEventArgs e)
+        /// <summary>Raised after a player warps to a new location.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnWarped(object sender, WarpedEventArgs e)
         {
             if (e.IsLocalPlayer)
                 detector.SetLocation(e.NewLocation);

@@ -16,7 +16,7 @@ namespace sdv_helper.Menu
     {
         public static readonly Rectangle TitleRect = new Rectangle(0, 256, 60, 60);
         public static readonly string MenuText = "Stardew Valley ESP";
-        public static readonly string[] TabNames = new string[] { "Colors", "Hotkeys" };
+        public static readonly string[] TabNames = { "Colors", "Hotkeys" };
         public static readonly int PaddingX = 30;
         public static readonly int PaddingY = 20;
         public static readonly int TextLength = 300;
@@ -170,7 +170,6 @@ namespace sdv_helper.Menu
                     foreach (Tab t in settingsTabs)
                         t.draw(b);
                     break;
-                case 0x01:
                 default:
                     // scrollbar
                     scrollbar.draw(b);

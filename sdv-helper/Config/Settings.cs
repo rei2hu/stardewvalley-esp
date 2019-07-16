@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StardewModdingAPI;
 using System.Collections.Generic;
 using System.IO;
