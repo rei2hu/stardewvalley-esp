@@ -1,8 +1,8 @@
 {
-  "Name": "sdv-helper",
+  "Name": "Stardew Valley ESP",
   "Author": "reimu",
   "Version": "1.1.0",
-  "Description": "Stardew Valley helper",
+  "Description": "Adds name tags to in-game entities for easier detection and finding.",
   "UniqueID": "reimu.sdv-helper",
   "EntryDll": "sdv-helper.dll",
   "MinimumApiVersion": "2.10.0",
