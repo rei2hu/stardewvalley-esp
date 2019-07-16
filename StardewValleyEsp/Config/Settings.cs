@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using StardewModdingAPI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
+using StardewModdingAPI;
 
-namespace sdv_helper.Config
+namespace StardewValleyEsp.Config
 {
     class Settings
     {

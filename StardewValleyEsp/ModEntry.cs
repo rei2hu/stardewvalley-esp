@@ -1,12 +1,12 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using sdv_helper.Detectors;
-using sdv_helper.Config;
-using sdv_helper.Labels;
 using StardewValley;
-using sdv_helper.Menu;
+using StardewValleyEsp.Config;
+using StardewValleyEsp.Detectors;
+using StardewValleyEsp.Labels;
+using StardewValleyEsp.Menu;
 
-namespace sdv_helper
+namespace StardewValleyEsp
 {
     /// <summary>The mod entry class.</summary>
     public class ModEntry : Mod

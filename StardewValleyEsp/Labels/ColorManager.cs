@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace sdv_helper.Labels
+namespace StardewValleyEsp.Labels
 {
     class ColorManager
     {

@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{648C1A42-1
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sdv-helper", "sdv-helper\sdv-helper.csproj", "{3E8E6986-1130-4145-AB75-020D422BB384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StardewValleyEsp", "StardewValleyEsp\StardewValleyEsp.csproj", "{3E8E6986-1130-4145-AB75-020D422BB384}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

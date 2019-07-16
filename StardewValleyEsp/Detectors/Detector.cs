@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using sdv_helper.Config;
 using StardewValley;
+using StardewValleyEsp.Config;
 
-namespace sdv_helper.Detectors
+namespace StardewValleyEsp.Detectors
 {
     class Detector : IDetector
     {

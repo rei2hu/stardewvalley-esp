@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using sdv_helper.Config;
 using StardewValley;
 using StardewValley.Menus;
+using StardewValleyEsp.Config;
 
-namespace sdv_helper.Menu
+namespace StardewValleyEsp.Menu
 {
     class ColorComponent : IClickableMenu
     {
