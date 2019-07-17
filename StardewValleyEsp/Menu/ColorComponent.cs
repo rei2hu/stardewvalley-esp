@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using sdv_helper.Config;
 using StardewValley;
 using StardewValley.Menus;
+using StardewValleyEsp.Config;
 
-namespace sdv_helper.Menu
+namespace StardewValleyEsp.Menu
 {
     class ColorComponent : IClickableMenu
     {
@@ -54,7 +54,7 @@ namespace sdv_helper.Menu
             // preview button thing
             Rectangle pickedPositionRect = new Rectangle(ColorPicker.xPositionOnScreen + borderWidth / 2 - 28 - 36, ColorPicker.yPositionOnScreen + borderWidth / 2, 28, 28);
             if (ColorPicker.colorSelection == 0)
-                b.Draw(Game1.mouseCursors, new Vector2(pickedPositionRect.X, pickedPositionRect.Y), new Rectangle?(new Rectangle(295, 503, 7, 7)), Color.White, 0.0f, Vector2.Zero, 4f, SpriteEffects.None, 0.88f);
+                b.Draw(Game1.mouseCursors, new Vector2(pickedPositionRect.X, pickedPositionRect.Y), new Rectangle(295, 503, 7, 7), Color.White, 0.0f, Vector2.Zero, 4f, SpriteEffects.None, 0.88f);
             else
                 // should make this rely on the color manager maybe because there are two locations to get the color from
                 // even though they do the same thing for now, but if more colors are ever added...

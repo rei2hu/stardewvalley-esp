@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using sdv_helper.Config;
-using StardewValley;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using StardewValley;
+using StardewValleyEsp.Config;
 
-namespace sdv_helper.Detectors
+namespace StardewValleyEsp.Detectors
 {
     class NPCDetector : IDetector
     {

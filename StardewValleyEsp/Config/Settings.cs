@@ -1,10 +1,9 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using StardewModdingAPI;
-using System.Collections.Generic;
-using System.IO;
 
-namespace sdv_helper.Config
+namespace StardewValleyEsp.Config
 {
     class Settings
     {

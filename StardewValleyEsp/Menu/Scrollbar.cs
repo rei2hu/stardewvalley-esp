@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
-namespace sdv_helper.Menu
+namespace StardewValleyEsp.Menu
 {
     class Scrollbar : IClickableMenu
     {
@@ -31,11 +31,6 @@ namespace sdv_helper.Menu
             Right = Left + bar.bounds.Width;
             runner = new Rectangle(Left, Top, bar.bounds.Width, Bottom);
             Pages = pages;
-        }
-
-        public override void receiveLeftClick(int x, int y, bool playSound = true)
-        {
-            base.receiveLeftClick(x, y, playSound);
         }
 
         public void SetBarAt(int i)

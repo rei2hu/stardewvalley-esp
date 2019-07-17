@@ -1,6 +1,6 @@
 ﻿using StardewValley;
 
-namespace sdv_helper.Detectors
+namespace StardewValleyEsp.Detectors
 {
     interface IDetector
     {

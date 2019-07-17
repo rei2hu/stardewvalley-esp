@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using sdv_helper.Config;
-using sdv_helper.Detectors;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StardewValley;
-using System;
+using StardewValleyEsp.Config;
+using StardewValleyEsp.Detectors;
 
-namespace sdv_helper.Labels
+namespace StardewValleyEsp.Labels
 {
     class LabelDrawingManager
     {

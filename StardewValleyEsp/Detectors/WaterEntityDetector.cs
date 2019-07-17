@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using sdv_helper.Config;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using StardewValley;
-using System.Collections.Generic;
+using StardewValleyEsp.Config;
 
-namespace sdv_helper.Detectors
+namespace StardewValleyEsp.Detectors
 {
     class WaterEntityDetector : IDetector
     {
